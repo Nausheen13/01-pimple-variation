@@ -30,9 +30,3 @@ for a in amp1:
     run.start()
 
 
-
-#a= 0.002 #
-#case= templateCase.cloneCase("pimple-amp%.3f" %a)
-''' Newcase= "pimple-amp%.3f" %a
-post= open(path.join(Newcase,"postProcessing", "patchAverage_massfraction","0","s"))
-velBC = ParsedParameterFile(path.join(Newcase,"0", "s")) '''
