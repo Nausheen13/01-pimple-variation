@@ -9,6 +9,7 @@ from PyFoam.RunDictionary.SolutionDirectory import SolutionDirectory
 from PyFoam.RunDictionary.ParsedParameterFile import ParsedParameterFile
 from PyFoam.Basics.DataStructures import Vector
 from PyFoam.Execution.ConvergenceRunner import ConvergenceRunner
+from PyFoam.Execution.UtilityRunner import UtilityRunner
 from PyFoam.LogAnalysis.BoundingLogAnalyzer import BoundingLogAnalyzer
 from PyFoam.Execution.AnalyzedRunner import AnalyzedRunner
 from PyFoam.LogAnalysis.SimpleLineAnalyzer import GeneralSimpleLineAnalyzer
@@ -20,6 +21,8 @@ from scipy.signal import find_peaks
 from numpy import linspace
 
 amp1 = linspace(0.002, 0.006, 3)
+
+np= 4
 
 
 class CompactAnalyzer(BoundingLogAnalyzer):
@@ -60,8 +63,17 @@ for a in amp1:
     velBC["boundaryField"]["auto1"]["variables"][1] = '"amp= %.3f;"' % a
     velBC.writeFile()
 
+    decomposer= UtilityRunner(
+    argv=["decomposePar", "-case",Newcase],
+    logname="decomposePar",
+    )
+    decomposer.start()
+
+    np_substring= "mpiexec" 
+    run_command = f"{np_substring} {solver} -parallel"
+
     run = AnalyzedRunner(
-        CompactAnalyzer(), argv=[solver, "-case", Newcase], logname="Solution",
+        CompactAnalyzer(), argv=[run_command, "-case", Newcase], logname="Solution",
     )
     run.start()
 
