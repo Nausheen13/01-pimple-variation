@@ -24,6 +24,8 @@ amp1 = linspace(0.002, 0.006, 3)
 
 np= 4
 
+nt=2
+
 
 class CompactAnalyzer(BoundingLogAnalyzer):
     def __init__(self):
